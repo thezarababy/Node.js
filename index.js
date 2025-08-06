@@ -55,52 +55,8 @@
 
 const express = require("express");
 const app = express();
-const mongoose = require("mongoose");
 app.use(express.json());
+const studentRouter = require("./router/student.router");
 
-const dBConnect = async () => {
-  try {
-    await mongoose.connect("mongodb://localhost:27017/ajo");
-    console.log("i am connected");
-  } catch (err) {
-    console.log(err);
-  }
-};
-dBConnect();
-app.listen(9000, () => console.log("i am active"));
-
-const AjoSchema = new mongoose.Schema({
-  username: String,
-  password: String,
-});
-const AjoModel = new mongoose.model("AjoUsers", AjoSchema);
-
-// create new user
-app.post("/signup", async (req, res) => {
-  try {
-    let newAjoUser = new AjoModel({
-      username: req.body.username,
-      password: req.body.password,
-    });
-    await newAjoUser.save();
-    res.json({
-      message: "user created",
-      data: newAjoUser,
-    });
-  } catch (err) {
-    res.status(500).json({ error: "failed to create user" });
-  }
-});
-
-app.get("/allusers", async (req, res) => {
-  try {
-    const myAjoUser = await AjoModel.find();
-    res.json({
-      message: "all users gotten",
-      data: myAjoUser,
-    });
-  } catch (err) {
-    console.error("Error fetching users:", err);
-    res.status(500).json({ error: "failed to fetch all users" });
-  }
-});
+app.use("/api/students", studentRouter);
+app.listen(7000, () => console.log("i am listening on this port"));
