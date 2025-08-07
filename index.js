@@ -53,10 +53,19 @@
 
 // app.listen(8000, () => console.log("i am listening on this app"));
 
+//Best Practices
+
+// const express = require("express");
+// const app = express();
+// app.use(express.json());
+// const studentRouter = require("./router/student.router");
+
+// app.use("/api/students", studentRouter);
+// app.listen(7000, () => console.log("i am listening on this port"));
+
 const express = require("express");
 const app = express();
+const moneyRouter = require("./router/student.router");
+app.use("/api/finaces", moneyRouter);
 app.use(express.json());
-const studentRouter = require("./router/student.router");
-
-app.use("/api/students", studentRouter);
-app.listen(7000, () => console.log("i am listening on this port"));
+app.listen(5000, () => console.log("i am listening on this app"));

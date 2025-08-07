@@ -1,74 +1,95 @@
-const { default: mongoose } = require("mongoose");
-const studentModel = require("../model/student.model");
+const moneyModel = require("../model/student.model");
 
-const newStudent = async (req, res) => {
+const newUser = async (req, res) => {
   try {
-    const { studentName, email, age, bio } = req.body;
-    const randomAdminNo = Math.floor(Math.random() * 10000);
-    const createStudent = await studentModel.create({
-      studentName,
+    const { firstName, lastName, email, username } = req.body;
+    const createNewUser = await moneyModel.create({
+      firstName,
+      lastName,
       email,
-      age,
-      bio,
-      admissionNo: `STU-${randomAdminNo}`,
+      username,
     });
     res.status(201).json({
-      message: "New student added",
-      data: createStudent,
+      message: "user created successsfully",
+      data: createNewUser,
     });
   } catch (error) {
     res.status(400).json({
-      message: "failed to create New student",
-      data: error,
-    });
-  }
-};
-const getAllStudent = async (req, res) => {
-  try {
-    const getStudent = await studentModel.find();
-    res.status(200).json({
-      message: "All student gotten",
-      data: getStudent,
-    });
-  } catch (error) {
-    res.status(400).json({
-      message: "get to create New student",
+      message: "user created successsfully",
       data: error,
     });
   }
 };
 
-const getOneStudent = async (req, res) => {
+const getAllUser = async (req, res) => {
   try {
-    const getOne = await studentModel.findById(req.params.id);
-    res.status(200).json({
-      message: " user gotten",
+    const getUser = await moneyModel.find();
+    res.status(201).json({
+      message: "user gotten successsfully",
+      data: getUser,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "failed to get users",
+      data: error,
+    });
+  }
+};
+
+const getOneUser = async (req, res) => {
+  try {
+    const getOne = await moneyModel.findById(req.params.id);
+    res.status(201).json({
+      message: "user gotten successsfully",
       data: getOne,
     });
   } catch (error) {
     res.status(400).json({
-      message: "Failed to get user",
+      message: "failed to get users",
       data: error,
     });
   }
 };
-const updateAllStudent = async (req, res) => {
+
+const updateAllUser = async (req, res) => {
   try {
-    const { studentName, bio } = req.body;
-    const updateStudent = await studentModel.findByIdAndUpdate(
+    const { username } = req.body;
+    const updateUser = await moneyModel.findByIdAndUpdate(
       req.params.id,
-      { studentName, bio },
+      { username },
       { new: true }
     );
-    res.status(200).json({
-      message: "All student gotten",
-      data: updateStudent,
+    res.status(201).json({
+      message: "user gotten successsfully",
+      data: getOne,
     });
   } catch (error) {
     res.status(400).json({
-      message: "get to create New student",
+      message: "failed to get users",
       data: error,
     });
   }
 };
-module.exports = { newStudent, getAllStudent, getOneStudent, updateAllStudent };
+
+const deleteAllUser = async (req, res) => {
+  try {
+    const deleteUser = await moneyModel.findByIdAndDelete(req.params.id);
+    res.status(201).json({
+      message: "user deleted successsfully",
+      data: deleteUser,
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: "failed to delete users",
+      data: error,
+    });
+  }
+};
+
+module.exports = {
+  newUser,
+  getAllUser,
+  getOneUser,
+  updateAllUser,
+  deleteAllUser,
+};
