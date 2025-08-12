@@ -33,3 +33,6 @@ router.route("/updatealluser").put(updateAllUser);
 router.route("/deletealluser").delete(deleteAllUser);
 
 module.exports = router;
+
+jyokoduwa;
+seEsqLxd5BVozzZO;
